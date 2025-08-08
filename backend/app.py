@@ -64,7 +64,7 @@ def ingest(req: IngestRequest):
         response.raise_for_status()
         soup = BeautifulSoup(response.text, "html.parser")
         text = soup.get_text(separator=" ", strip=True)
-    except Exception:
+    except Exception as e:
         # Offline fallback for environments without network access
         if "example.com" in req.url:
             text = (
@@ -72,7 +72,7 @@ def ingest(req: IngestRequest):
                 "You may use this domain in literature without prior coordination or asking for permission."
             )
         else:
-            raise HTTPException(status_code=400, detail="Failed to fetch URL")
+            raise HTTPException(status_code=400, detail=f"Failed to fetch URL: {e}")
 
     if not text:
         raise HTTPException(status_code=400, detail="No text found at URL")
