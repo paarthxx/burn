@@ -5,6 +5,15 @@ This guide will help you deploy your Burning Man Expert Chatbot with a separate 
 ## Architecture
 - **Frontend**: GitHub Pages (static hosting) - `https://paarthxx.github.io/burn/`
 - **Backend**: Render (FREE Python hosting) - API endpoints
+## 🛠️ IMPORTANT DEPLOYMENT FIX
+
+**RESOLVED**: Updated `requirements.txt` with Python 3.13-compatible packages to fix Cython compilation errors:
+- `sentence-transformers==3.0.1` (was 2.2.2)
+- `scikit-learn==1.4.2` (was 1.3.2) 
+- `numpy==1.26.4` (was 1.24.4)
+
+The previous deployment failure was due to incompatible package versions with Render's Python 3.13.4 environment.
+
 
 ## Step 1: Deploy Backend to Render (FREE)
 
