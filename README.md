@@ -1,4 +1,4 @@
-# Burning Man Expert Chatbot
+# let's burn Chatbot
 
 An open-source web app that lets you build a Burning Man knowledge base by feeding it URLs. The backend uses a simple retrieval system so answers reference ingested pages. The UI is served directly by FastAPI and works in Safari.
 

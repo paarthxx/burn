@@ -1,18 +1,18 @@
 from fastapi.testclient import TestClient
-from backend.app import app, documents, DOC_PATH
+from backend.app import app, documents, SOURCES_PATH
 import os
 
 client = TestClient(app)
 
 def setup_function(func):
     # Ensure clean state
-    if os.path.exists(DOC_PATH):
-        os.remove(DOC_PATH)
+    if os.path.exists(SOURCES_PATH):
+        os.remove(SOURCES_PATH)
     documents.clear()
 
 
 def test_ingest_and_chat():
-    resp = client.post('/ingest', json={'url': 'https://www.example.com'})
+    resp = client.post('/ingest', json={'target_url': 'https://www.example.com'})
     assert resp.status_code == 200
     data = resp.json()
     assert data['status'] == 'ingested'
