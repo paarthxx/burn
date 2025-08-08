@@ -1,5 +1,4 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import requests
@@ -20,19 +19,22 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="let's burn")
 
-# Add CORS middleware
+# Add CORS middleware - allow GitHub Pages and local development
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://paarthxx.github.io",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://localhost:3000"
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
 SOURCES_DIR = os.path.join(os.path.dirname(__file__), "..", "sources")
 SOURCES_PATH = os.path.join(SOURCES_DIR, "sources.json")
-STATIC_DIR = os.path.join(os.path.dirname(__file__), "..")
-
 if not os.path.exists(SOURCES_DIR):
     os.makedirs(SOURCES_DIR)
 
@@ -387,11 +389,7 @@ async def chat(req: ChatRequest):
         return {"answer": "I couldn't find information specifically about that topic in my Burning Man knowledge base. Could you try rephrasing your question or ask about something else related to Burning Man?"}
 
 
-# Mount static files last to avoid interfering with API routes
 @app.get("/")
-async def read_index():
-    """Serve the main index.html file"""
-    from fastapi.responses import FileResponse
-    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
-
-app.mount("/assets", StaticFiles(directory=os.path.join(STATIC_DIR, "assets")), name="assets")
+async def root():
+    """API root endpoint"""
+    return {"message": "Burning Man Expert Chatbot API", "status": "running"}

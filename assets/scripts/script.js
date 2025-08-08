@@ -2,6 +2,19 @@ const chatLog = document.getElementById('chat-log');
 const queryInput = document.getElementById('query');
 const sendButton = document.getElementById('send');
 
+// API Configuration - automatically detects environment
+const API_CONFIG = {
+  development: 'http://localhost:8000',
+  production: 'https://burn-4v9q.onrender.com' // Update this with your actual Render URL
+};
+
+// Detect environment and set API base URL
+const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE_URL = isDevelopment ? API_CONFIG.development : API_CONFIG.production;
+
+console.log(`Environment: ${isDevelopment ? 'development' : 'production'}`);
+console.log(`API Base URL: ${API_BASE_URL}`);
+
 // Add chat message to log
 function addMessage(message, isUser = false) {
   const messageDiv = document.createElement('div');
@@ -46,7 +59,7 @@ async function sendQuery() {
   try {
     console.log('Sending query:', query);
     
-    const res = await fetch('/api/chat', {
+    const res = await fetch(`${API_BASE_URL}/api/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -122,7 +135,7 @@ async function ingestUrl() {
   addButton.textContent = 'adding...';
   
   try {
-    const res = await fetch('/ingest', {
+    const res = await fetch(`${API_BASE_URL}/ingest`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ target_url: url })
