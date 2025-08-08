@@ -7,12 +7,12 @@ This guide will help you deploy your Burning Man Expert Chatbot with a separate 
 - **Backend**: Render (FREE Python hosting) - API endpoints
 ## 🛠️ IMPORTANT DEPLOYMENT FIX
 
-**RESOLVED**: Updated `requirements.txt` with Python 3.13-compatible packages to fix Cython compilation errors:
-- `sentence-transformers==3.0.1` (was 2.2.2)
-- `scikit-learn==1.4.2` (was 1.3.2) 
-- `numpy==1.26.4` (was 1.24.4)
+**RESOLVED**: Updated `requirements.txt` with Python 3.13-compatible packages that have pre-built wheels:
+- `sentence-transformers==2.7.0` (pre-built wheels available)
+- `scikit-learn==1.5.1` (Python 3.13 compatible with wheels)
+- `numpy==2.0.2` (stable numpy 2.x with Python 3.13 support)
 
-The previous deployment failure was due to incompatible package versions with Render's Python 3.13.4 environment.
+The deployment failures were due to packages trying to build from source without compatible numpy versions. These versions have pre-built wheels and avoid build dependency issues.
 
 
 ## Step 1: Deploy Backend to Render (FREE)
