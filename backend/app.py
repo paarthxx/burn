@@ -62,6 +62,7 @@ def ingest(req: IngestRequest):
     try:
         response = requests.get(req.url, timeout=10)
         response.raise_for_status()
+
         soup = BeautifulSoup(response.text, "html.parser")
         text = soup.get_text(separator=" ", strip=True)
     except Exception as e:
@@ -73,6 +74,12 @@ def ingest(req: IngestRequest):
             )
         else:
             raise HTTPException(status_code=400, detail=f"Failed to fetch URL: {e}")
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to fetch URL: {e}")
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    text = soup.get_text(separator=" ", strip=True)
 
     if not text:
         raise HTTPException(status_code=400, detail="No text found at URL")
