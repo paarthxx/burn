@@ -7,12 +7,14 @@ This guide will help you deploy your Burning Man Expert Chatbot with a separate 
 - **Backend**: Render (FREE Python hosting) - API endpoints
 ## 🛠️ IMPORTANT DEPLOYMENT FIX
 
-**RESOLVED**: Updated `requirements.txt` with Python 3.13-compatible packages that have pre-built wheels:
-- `sentence-transformers==2.7.0` (pre-built wheels available)
-- `scikit-learn==1.5.1` (Python 3.13 compatible with wheels)
-- `numpy==2.0.2` (stable numpy 2.x with Python 3.13 support)
+**RESOLVED**: Updated `requirements.txt` with packages that have pre-built wheels to avoid Rust compilation errors:
+- `fastapi==0.115.0` (latest stable with pre-built wheels)
+- `uvicorn==0.30.0` (updated for compatibility)
+- `sentence-transformers==3.0.1` (latest with pre-built wheels)
+- `pydantic==2.9.0` (newer version with pydantic-core pre-built wheels)
+- `numpy==1.26.4` (stable version with broad compatibility)
 
-The deployment failures were due to packages trying to build from source without compatible numpy versions. These versions have pre-built wheels and avoid build dependency issues.
+The deployment failures were due to `pydantic-core` needing Rust compilation in a read-only filesystem environment. These updated versions use pre-built wheels and avoid build dependency issues.
 
 
 ## Step 1: Deploy Backend to Render (FREE)
